@@ -1,0 +1,7 @@
+node_modules/
+npm-debug.log
+config/*
+!config/default.yml
+app/plugins/*/public
+storage/*
+!storage/.gitkeep

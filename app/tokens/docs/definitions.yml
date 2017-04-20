@@ -1,0 +1,7 @@
+definitions:
+  Token:
+    properties:
+      token:
+        type: string
+      userId:
+        type: string

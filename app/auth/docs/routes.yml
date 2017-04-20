@@ -1,0 +1,41 @@
+/auth:
+  get:
+    operationId: get
+    description: Returns currently authenticated user.
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/User'
+  put:
+    description: Update user credentials.
+    parameters:
+      - name: body
+        in: body
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/JWT'
+  post:
+    description: Authenticate user credentials.
+    parameters:
+      - name: body
+        in: body
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/JWT'
+/signup:
+  post:
+    operationId: signup
+    description: Signup a new user.
+    parameters:
+      - name: body
+        in: body
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/JWT'

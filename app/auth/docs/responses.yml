@@ -1,0 +1,9 @@
+responses:
+  JWT:
+    description: JWT Object
+    schema:
+      type: object
+      properties:
+        jwt:
+          schema:
+            $ref: '#/definitions/JWT'

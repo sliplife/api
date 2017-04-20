@@ -1,0 +1,20 @@
+responses:
+  User:
+    description: User Object
+    schema:
+      type: object
+      properties:
+        user:
+          schema:
+            $ref: '#/definitions/User'
+  Users:
+    description: Users Array
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/definitions/User'
+        pagination:
+          $ref: '#/definitions/Pagination'

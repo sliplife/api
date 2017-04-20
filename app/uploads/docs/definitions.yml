@@ -1,0 +1,7 @@
+definitions:
+  Upload:
+    properties:
+      id:
+        type: string
+      name:
+        type: string

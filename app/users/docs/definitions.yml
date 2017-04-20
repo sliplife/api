@@ -1,0 +1,21 @@
+definitions:
+  User:
+    properties:
+      id:
+        type: string
+      bio:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      scopes:
+        type: array
+        items:
+          type: string

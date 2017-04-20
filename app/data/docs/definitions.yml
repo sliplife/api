@@ -1,0 +1,15 @@
+definitions:
+  Pagination:
+    properties:
+      currentPage:
+        type: integer
+      itemsPerPage:
+        type: integer
+      nextPage:
+        type: integer
+      previousPage:
+        type: integer
+      totalItems:
+        type: integer
+      totalPages:
+        type: integer

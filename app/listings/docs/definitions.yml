@@ -1,0 +1,7 @@
+definitions:
+  Listing:
+    properties:
+      id:
+        type: string
+      state:
+        type: string

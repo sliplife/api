@@ -1,0 +1,20 @@
+responses:
+  Upload:
+    description: Upload Object
+    schema:
+      type: object
+      properties:
+        upload:
+          schema:
+            $ref: '#/definitions/Upload'
+  Uploads:
+    description: Uploads Array
+    schema:
+      type: object
+      properties:
+        uploads:
+          type: array
+          items:
+            $ref: '#/definitions/Upload'
+        pagination:
+          $ref: '#/definitions/Pagination'

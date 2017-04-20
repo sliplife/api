@@ -1,0 +1,6 @@
+/docs:
+  get:
+    description: Returns open api specification compliant JSON documentation.
+    responses:
+      200:
+        $ref: '#/responses/Swagger'

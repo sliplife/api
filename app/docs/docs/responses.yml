@@ -1,0 +1,9 @@
+responses:
+  Swagger:
+    description: Open API Specification
+    schema:
+      $ref: '#/definitions/Swagger'
+  Unauthorized:
+    description: Not authorized.
+    schema:
+      $ref: '#/definitions/Boom'

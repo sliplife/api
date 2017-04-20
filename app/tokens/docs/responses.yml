@@ -1,0 +1,20 @@
+responses:
+  Token:
+    description: Token Object
+    schema:
+      type: object
+      properties:
+        token:
+          schema:
+            $ref: '#/definitions/Token'
+  Tokens:
+    description: Tokens Array
+    schema:
+      type: object
+      properties:
+        tokens:
+          type: array
+          items:
+            $ref: '#/definitions/Token'
+        pagination:
+          $ref: '#/definitions/Pagination'
