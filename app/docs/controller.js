@@ -57,6 +57,7 @@ module.exports = ({
       ]
     };
     api.info.host = request.info.host;
+    api.info.host = (process.env.NODE_ENV !== 'production') ? 'api.sliplife.dev' : 'api.sliplife.com';
     api.paths = documentation.paths.map((docFile) => ({
       plugin: request.server.plugins.plugins.getDetails(docFile),
       yaml: internals.loadYamlDoc(docFile)
