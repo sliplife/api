@@ -10,7 +10,7 @@ module.exports = ({
     const query = request.query.query || '';
     const filter = request.server.plugins.data.store().Listing
       .getJoin(request.server.plugins.data.getJoinObject(request.query.with))
-      .filter((listing) => listing('email').match(`(?i).*${query}.*`));
+      .filter((listing) => listing('type').match(`(?i).*${query}.*`));
     Promise.props({
       total: filter.count().execute(),
       listings: filter.skip(offset).limit(limit).run()
