@@ -101,7 +101,7 @@ module.exports = ({
     api.definitions.forEach((definition) => Object.assign(definitions, definition));
     api.definitions = definitions;
     // If forwarded by a local proxy then adjust the base path.
-    if (request.headers['x-forwarded-for'] === '127.0.0.1') {
+    if (request.headers['x-forwarded-for'].includes('127.0.0.1')) {
       api.basePath = '/api';
     }
     else {
