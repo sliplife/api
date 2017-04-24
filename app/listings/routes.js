@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const internals = {
   controller: require('./controller')
 };
@@ -22,7 +23,18 @@ module.exports = [
   {
     method: 'POST',
     path: '/listings',
-    handler: internals.controller.create
+    config: {
+      handler: internals.controller.create,
+      validate: {
+        payload: {
+          amenities: Joi.array().optional(),
+          city: Joi.string().required(),
+          description: Joi.string().required(),
+          state: Joi.string().required(),
+          type: Joi.string().required()
+        }
+      }
+    }
   },
   {
     method: 'PUT',
