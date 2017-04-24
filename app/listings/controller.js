@@ -43,9 +43,8 @@ module.exports = ({
   create: (request, reply) => {
 
     const Listing = request.server.plugins.data.store().Listing;
-    const payloadInstance = new Listing({
-      state: request.payload.state
-    });
+    const payloadInstance = new Listing(request.payload);
+    payloadInstance.userId = request.auth.credentials.user.id;
     payloadInstance
       .save()
       .then((listing) => reply({ listing }))
