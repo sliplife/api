@@ -28,8 +28,8 @@ class PostHandler extends BaseHandler {
           const filename = new RegExp('filename (.*) ?').exec(File.upload_metadata);
           const name = (filename && filename[1]) ? Base64.decode(filename[1]) : undefined;
           const upload_length = req.headers['upload-length'];
-          const url = `http://www.sliplife.com/${this.store.path}/${File.id}`;
-          const Upload = this.dataStore.Uploads.Upload;
+          const url = `https://${req.headers.host}${this.store.path}/${File.id}`;
+          const Upload = this.dataStore.Upload;
           const upload = new Upload({
             fingerprint: File.id,
             path: this.store.path,

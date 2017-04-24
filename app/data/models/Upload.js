@@ -12,8 +12,8 @@ module.exports = (store, server) => {
 
   Upload.define('clientUrl', (upload) => {
 
-    const port = (server.app.config.client.port === 80) ? '' : `:${server.app.config.client.port}`;
-    return `//${upload.domain}${port}${upload.path}/${upload.fingerprint}`;
+    const domain = (process.env.NODE_ENV === 'production') ? 'api.sliplife.com' : 'api.sliplife.dev';
+    return `//${domain}${upload.path}/${upload.fingerprint}/raw`;
   });
 
   return Upload;

@@ -129,7 +129,7 @@ class tusStore extends FileStore {
         console.info(`[FileStore] write: ${new_offset} bytes written to ${path}`);
         offset += new_offset;
         console.info(`[FileStore] write: File is now ${offset} bytes`);
-        this.dataStore.Uploads.Upload
+        this.dataStore.Upload
           .filter({ fingerprint: file_id })
           .limit(1)
           .run()
@@ -155,7 +155,7 @@ class tusStore extends FileStore {
                 .metadata()
                 .then((metadata) => {
 
-                  this.dataStore.Uploads.Upload
+                  this.dataStore.Upload
                     .get(file.id)
                     .update({
                       status,
@@ -173,7 +173,7 @@ class tusStore extends FileStore {
                 });
             }
             else {
-              this.dataStore.Uploads.Upload
+              this.dataStore.Upload
                 .get(file.id)
                 .update({
                   status,

@@ -14,13 +14,15 @@ module.exports = [
     path: '/uploads/{id}',
     config: {
       auth: false,
-      handler: (request, reply) => {
-        // Handle TUS head requests.
-        if (request.method === 'head') {
-          return internals.controller.tusHandler(request, reply);
-        }
-        return internals.controller.get(request, reply);
-      }
+      handler: internals.controller.get
+    }
+  },
+  {
+    method: 'GET',
+    path: '/uploads/{id}/raw',
+    config: {
+      auth: false,
+      handler: internals.controller.dynamicResizeHandler
     }
   },
   {
@@ -51,6 +53,7 @@ module.exports = [
       handler: internals.controller.update,
       validate: {
         payload: Joi.object({
+          listingId: Joi.string(),
           name: Joi.string(),
           description: Joi.string(),
           tags: Joi.array()
