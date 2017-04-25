@@ -19,7 +19,7 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/uploads/{id}/raw',
+    path: '/uploads/{fingerprint}/raw',
     config: {
       auth: false,
       handler: internals.controller.dynamicResizeHandler
