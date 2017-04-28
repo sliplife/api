@@ -6,6 +6,7 @@ module.exports = (store, server) => {
     city: store.type.string(),
     createdAt: store.type.date().default(store.r.now()),
     description: store.type.string(),
+    expiresAt: store.type.date().default(store.r.now().add(86400)), // 1 day
     featured: store.type.boolean().default(false),
     id: store.type.string(),
     state: store.type.string(),
