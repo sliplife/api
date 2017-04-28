@@ -1,0 +1,14 @@
+/stripe/charges:
+  post:
+    operationId: createCharge
+    description: Creates a new charge.
+    parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: '#/definitions/Charge'
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/Charge'

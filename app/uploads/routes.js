@@ -14,7 +14,13 @@ module.exports = [
     path: '/uploads/{id}',
     config: {
       auth: false,
-      handler: internals.controller.get
+      handler: (request, reply) => {
+
+        if (request.method === 'head') {
+          return internals.controller.tusHandler(request, reply);
+        }
+        return internals.controller.get(request, reply);
+      }
     }
   },
   {

@@ -74,6 +74,7 @@
     "slug": "0.9.1",
     "smartcrop": "1.1.1",
     "smartcrop-sharp": "1.0.5",
+    "stripe": "4.18.0",
     "striptags": "2.2.1",
     "thinky": "2.3.8",
     "tmp": "0.0.30",

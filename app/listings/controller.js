@@ -10,6 +10,7 @@ module.exports = ({
     const query = request.query.query || '';
     const filter = request.server.plugins.data.store().Listing
       .getJoin(request.server.plugins.data.getJoinObject(request.query.with))
+      .filter((listing) => listing.hasFields({ active: true }))
       .filter((listing) => {
 
         return listing('type').match(`(?i).*${query}.*`)
@@ -43,10 +44,25 @@ module.exports = ({
   create: (request, reply) => {
 
     const Listing = request.server.plugins.data.store().Listing;
+    const uploads = request.payload.uploads;
+    delete request.payload.uploads;
     const payloadInstance = new Listing(request.payload);
     payloadInstance.userId = request.auth.credentials.user.id;
     payloadInstance
       .save()
+      .then((listing) => {
+
+        return Promise.all((uploads).map((uploadId) => {
+
+          const Upload = request.server.plugins.data.store().Upload;
+          return Upload
+            .filter((upload) => upload('fingerprint').match(uploadId))
+            .nth(0)
+            .run()
+            .then((upload) => upload.merge({ listingId: listing.id }).save());
+        }))
+        .then(() => listing);
+      })
       .then((listing) => reply({ listing }))
       .catch((listingError) => reply(Boom.badRequest(listingError)));
   },

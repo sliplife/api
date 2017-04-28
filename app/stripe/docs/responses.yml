@@ -1,0 +1,9 @@
+responses:
+  Charge:
+    description: Stripe charge object.
+    schema:
+      type: object
+      properties:
+        charge:
+          schema:
+            $ref: '#/definitions/Charge'

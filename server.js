@@ -11,7 +11,8 @@ server.connection({
   labels: ['api'],
   routes: {
     cors: {
-      origin: ['*']
+      origin: ['*'],
+      exposedHeaders: ['Upload-Offset']
     },
     payload: {
       allow: [

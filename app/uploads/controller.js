@@ -77,7 +77,7 @@ module.exports = ({
       .run()
       .then((upload) => {
 
-        const file = Path.join(process.cwd(), '..', upload.path, upload.fingerprint);
+        const file = Path.join(process.cwd(), '..', upload.path, upload.getDirectoryPath());
         return Fs.unlink(file)
           .then(() => upload)
           .catch((error) => reply(Boom.badRequest(error)));
@@ -91,6 +91,7 @@ module.exports = ({
 
     const tusServer = new Tus.Server();
     tusServer.datastore = new TusStore({
+      params: request.params,
       path: '/uploads',
       directory: Path.join(process.cwd(), '..', 'uploads'),
       dataStore: request.server.plugins.data.store()
@@ -162,7 +163,7 @@ module.exports = ({
       .run()
       .then((upload) => {
 
-        return readFileBuffer(Path.join(process.cwd(), '..', upload.path, upload.fingerprint))
+        return readFileBuffer(Path.join(process.cwd(), '..', upload.path, upload.getDirectoryPath()))
           .then((buffer) => orientate(buffer))
           .then((buffer) => resize(buffer))
           .then((buffer) => filter(buffer))

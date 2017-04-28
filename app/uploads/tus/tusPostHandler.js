@@ -28,19 +28,21 @@ class PostHandler extends BaseHandler {
           const filename = new RegExp('filename (.*) ?').exec(File.upload_metadata);
           const name = (filename && filename[1]) ? Base64.decode(filename[1]) : undefined;
           const upload_length = req.headers['upload-length'];
-          const url = `https://${req.headers.host}${this.store.path}/${File.id}`;
           const Upload = this.dataStore.Upload;
           const upload = new Upload({
             fingerprint: File.id,
             path: this.store.path,
             status: 'pending',
             bytes: parseInt(upload_length, 10),
-            name,
-            created_at: new Date()
+            name
           });
           upload
             .save()
-            .then((upload) => BaseHandler.prototype.send.call(this, res, 201, { Location: url }))
+            .then((upload) => {
+
+              const url = `https://${req.headers.host}${this.store.path}/${File.id}`;
+              return BaseHandler.prototype.send.call(this, res, 201, { Location: url });
+            })
             .catch((error) => console.warn('[PostHandler]', error));
         })
         .catch((error) => {

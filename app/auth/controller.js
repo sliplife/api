@@ -42,12 +42,9 @@ module.exports = ({
             email: authenticatedUser.email,
             firstName: authenticatedUser.firstName,
             lastName: authenticatedUser.lastName,
-            lastAuthenticatedAt,
-            stripeId: authenticatedUser.stripeId || undefined,
-            tutorials: authenticatedUser.tutorials
+            lastAuthenticatedAt
           };
-          const scope = authenticatedUser.scope || [];
-          const token = JsonWebToken.sign({ user, scope }, request.server.app.config.auth.jwt.secret);
+          const token = JsonWebToken.sign({ user }, request.server.app.config.auth.jwt.secret);
 
           request.server.plugins.data.store().User
             .get(user.id)

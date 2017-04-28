@@ -65,8 +65,6 @@ const plugin = (server, options, nextPlugin) => {
   store.Listing.belongsTo(store.User, 'user', 'userId', 'id');
   store.Listing.hasMany(store.Upload, 'uploads', 'id', 'listingId');
   store.Token.belongsTo(store.User, 'user', 'userId', 'id');
-  store.Upload.hasOne(store.Listing, 'listing', 'id', 'listingId');
-  store.User.belongsTo(store.Upload, 'photo', 'photoId', 'id');
   store.User.hasOne(store.Token, 'token', 'id', 'userId');
   store.User.hasMany(store.Listing, 'listings', 'id', 'userId');
 

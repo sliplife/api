@@ -5,7 +5,7 @@ const MASK = '0777';
 const IGNORED_MKDIR_ERROR = 'EEXIST';
 const FILE_DOESNT_EXIST = 'ENOENT';
 const ERRORS = require('tus-node-server/lib/constants').ERRORS;
-const Fs = require('fs');
+const Fs = require('fs-promise');
 const ReadChunk = require('read-chunk');
 const FileType = require('file-type');
 const Sharp = require('sharp');
@@ -109,7 +109,6 @@ class tusStore extends FileStore {
 
       console.log('CREATING WRITE STREAM WITH OPTIONS', options);
       const stream = Fs.createWriteStream(path, options);
-      console.log(stream);
 
       let new_offset = 0;
       req.on('data', (buffer) => {
@@ -168,6 +167,12 @@ class tusStore extends FileStore {
                       width: metadata.width
                     })
                     .run()
+                    .then((upload) => {
+
+                      const file_path = `${this.directory}/${file_id}`;
+                      const final_file_path = `${this.directory}/${upload.getDirectoryPath()}`;
+                      return Fs.move(file_path, final_file_path);
+                    })
                     .then(() => resolve(offset))
                     .catch((error) => reject(error));
                 });
