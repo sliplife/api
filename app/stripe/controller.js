@@ -40,8 +40,12 @@ module.exports = ({
     };
     const activateListing = (charge) => {
 
-      const Listing = request.server.plugins.data.store().Listing;
-      return Listing.get(listingId).update({ active: true, stripeChargeId: charge.id }).run();
+      const store = request.server.plugins.data.store();
+      return store.Listing.get(listingId).update({
+        active: true,
+        stripeChargeId: charge.id,
+        expiresAt: store.r.now().add(86400 * 30) // 30 days
+      }).run();
     };
 
     return getAccountStripeCustomerId()
