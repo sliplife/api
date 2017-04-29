@@ -39,14 +39,14 @@ const internals = {
               const file = Path.join(process.cwd(), '..', upload.path, upload.getDirectoryPath());
               return Fs.unlink(file);
             }))
+            .then(() => {
+
+              const uploadsDirectory = Path.join(process.cwd(), '..', 'uploads');
+              return DeleteEmpty(uploadsDirectory);
+            })
             .then(() => listing.deleteAll())
             .then((listing) => listing.purge());
           }));
-        })
-        .then(() => {
-
-          const uploadsDirectory = Path.join(process.cwd(), '..', 'uploads');
-          return DeleteEmpty(uploadsDirectory);
         })
         .then((listings) => ({
           name: taskName,
