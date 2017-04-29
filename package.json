@@ -29,6 +29,7 @@
     "code": "4.0.0",
     "config": "1.24.0",
     "coveralls": "2.11.15",
+    "delete-empty": "1.0.1",
     "dot-prop": "4.1.0",
     "dust-intl": "1.1.1",
     "dustjs-helpers": "1.7.3",

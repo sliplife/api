@@ -1,5 +1,8 @@
 const Boom = require('boom');
 const Promise = require('bluebird');
+const Fs = require('fs-promise');
+const Path = require('path');
+const DeleteEmpty = Promise.promisify(require('delete-empty'));
 const internals = {
   tasks: {
     'deactivate-expired-listings': (request, reply) => {
@@ -31,9 +34,19 @@ const internals = {
 
           return Promise.all((listings).map((listing) => {
 
-            return listing.deleteAll()
-              .then((listing) => listing.purge());
+            return Promise.all((listing.uploads).map((upload) => {
+
+              const file = Path.join(process.cwd(), '..', upload.path, upload.getDirectoryPath());
+              return Fs.unlink(file);
+            }))
+            .then(() => listing.deleteAll())
+            .then((listing) => listing.purge());
           }));
+        })
+        .then(() => {
+
+          const uploadsDirectory = Path.join(process.cwd(), '..', 'uploads');
+          return DeleteEmpty(uploadsDirectory);
         })
         .then((listings) => ({
           name: taskName,
