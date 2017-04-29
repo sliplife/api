@@ -10,7 +10,7 @@ module.exports = ({
     const query = request.query.query || '';
     const filter = request.server.plugins.data.store().Listing
       .getJoin(request.server.plugins.data.getJoinObject(request.query.with))
-      .filter((listing) => listing.hasFields({ active: true }))
+      .filter((listing) => listing('active').eq(true))
       .filter((listing) => {
 
         return listing('type').match(`(?i).*${query}.*`)
