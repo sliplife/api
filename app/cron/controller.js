@@ -7,7 +7,6 @@ const internals = {
       const taskName = request.params.taskName;
       const store = request.server.plugins.data.store();
       return store.Listing
-        .getJoin({ uploads: true })
         .filter((listing) => listing('active').eq(true))
         .filter((listing) => listing('expiresAt').lt(store.r.now()))
         .run()
