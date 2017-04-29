@@ -1,0 +1,7 @@
+definitions:
+  Task:
+    properties:
+      name:
+        type: string
+      work:
+        type: object

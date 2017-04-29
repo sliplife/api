@@ -1,0 +1,9 @@
+responses:
+  Task:
+    description: Task Object
+    schema:
+      type: object
+      properties:
+        task:
+          schema:
+            $ref: '#/definitions/Task'

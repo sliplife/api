@@ -1,0 +1,12 @@
+/cron/{taskName}:
+  get:
+    description: Returns a single cron task.
+    parameters:
+      - name: taskName
+        in: path
+        type: string
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/Task'
