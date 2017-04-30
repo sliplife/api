@@ -10,7 +10,7 @@ module.exports = (store, server) => {
     featured: store.type.boolean().default(false),
     id: store.type.string(),
     state: store.type.string(),
-    type: store.type.string().enum(['marina', 'rack', 'trailer']),
+    type: store.type.string().enum(['dock', 'dry_storage', 'mooring', 'slip']),
     userId: store.type.string(),
     stripeChargeId: store.type.string()
   });
