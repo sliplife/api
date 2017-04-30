@@ -29,6 +29,7 @@ module.exports = [
         payload: {
           amenities: Joi.array().optional(),
           city: Joi.string().required(),
+          country: Joi.string().required(),
           description: Joi.string().required(),
           location: Joi.string().required(),
           price: Joi.string().required(),

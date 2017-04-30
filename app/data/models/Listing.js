@@ -4,6 +4,7 @@ module.exports = (store, server) => {
     active: store.type.boolean().default(false),
     amenities: store.type.array(),
     city: store.type.string(),
+    country: store.type.string(),
     createdAt: store.type.date().default(store.r.now()),
     description: store.type.string(),
     expiresAt: store.type.date().default(store.r.now().add(86400)), // 1 day
