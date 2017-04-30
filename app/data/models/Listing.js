@@ -9,6 +9,7 @@ module.exports = (store, server) => {
     expiresAt: store.type.date().default(store.r.now().add(86400)), // 1 day
     featured: store.type.boolean().default(false),
     id: store.type.string(),
+    location: store.type.string().enum(['condo', 'home', 'marina', 'vacant_lot']),
     state: store.type.string(),
     type: store.type.string().enum(['dock', 'dry_storage', 'mooring', 'slip']),
     userId: store.type.string(),

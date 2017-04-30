@@ -30,6 +30,7 @@ module.exports = [
           amenities: Joi.array().optional(),
           city: Joi.string().required(),
           description: Joi.string().required(),
+          location: Joi.string().required(),
           uploads: Joi.array().min(1).required(),
           state: Joi.string().required(),
           type: Joi.string().required()
