@@ -31,7 +31,9 @@ module.exports = [
           city: Joi.string().required(),
           country: Joi.string().required(),
           description: Joi.string().required(),
+          email: Joi.string().required(),
           location: Joi.string().required(),
+          phone: Joi.string(),
           price: Joi.string().required(),
           uploads: Joi.array().min(1).required(),
           state: Joi.string().required(),
@@ -39,6 +41,7 @@ module.exports = [
           terms: Joi.string().required(),
           termType: Joi.string().required(),
           type: Joi.string().required(),
+          vhfChannel: Joi.string(),
           zip: Joi.string().required()
         }
       }
