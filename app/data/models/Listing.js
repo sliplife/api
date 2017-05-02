@@ -1,3 +1,5 @@
+const Capitalize = require('lodash/capitalize');
+
 module.exports = (store, server) => {
 
   const Listing = store.createModel('listings', {
@@ -17,7 +19,9 @@ module.exports = (store, server) => {
       isNewTime.setDate(isNewTime.getDate() - 3); // 3 days
       return new Date(this.createdAt) > isNewTime;
     }),
+    latitude: store.type.number(),
     location: store.type.string().enum(['condo', 'home', 'marina', 'vacant_lot']),
+    longitude: store.type.number(),
     phone: store.type.string(),
     price: store.type.string(),
     state: store.type.string(),
@@ -26,6 +30,10 @@ module.exports = (store, server) => {
     terms: store.type.string().enum(['sale', 'rent']),
     termType: store.type.string().enum(['by_foot', 'flat_rate']),
     type: store.type.string().enum(['dock', 'dry_storage', 'mooring', 'slip']),
+    typeName: store.type.virtual().default(function () {
+
+      return this.type.split('_').map(Capitalize).join(' ');
+    }),
     userId: store.type.string(),
     vhfChannel: store.type.string(),
     zip: store.type.string()

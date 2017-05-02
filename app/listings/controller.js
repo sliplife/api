@@ -1,5 +1,6 @@
 const Boom = require('boom');
 const Promise = require('bluebird');
+const NodeGeocoder = require('node-geocoder');
 
 module.exports = ({
   index: (request, reply) => {
@@ -43,6 +44,16 @@ module.exports = ({
   },
   create: (request, reply) => {
 
+    const getGeoCoordinatesFromAddress = (address) => {
+
+      const geocoder = NodeGeocoder({
+        provider: 'google',
+        httpAdapter: 'https',
+        apiKey: request.server.app.config.google.geoKey
+      });
+      return geocoder.geocode(address);
+    };
+
     const Listing = request.server.plugins.data.store().Listing;
     const uploads = request.payload.uploads;
     delete request.payload.uploads;
@@ -62,6 +73,19 @@ module.exports = ({
             .then((upload) => upload.merge({ listingId: listing.id }).save());
         }))
         .then(() => listing);
+      })
+      .then((listing) => {
+
+        return getGeoCoordinatesFromAddress({
+          address: listing.street,
+          country: listing.country,
+          zipcode: listing.zip
+        })
+        .then((geo) => {
+
+          const { latitude, longitude } = geo[0] || geo;
+          return listing.merge({ latitude, longitude }).save();
+        });
       })
       .then((listing) => reply({ listing }))
       .catch((listingError) => reply(Boom.badRequest(listingError)));

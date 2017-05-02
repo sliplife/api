@@ -6,6 +6,8 @@ auth:
     algorithim: HS256
 mail:
   transport: direct
+google:
+  geoKey: xxx
 stripe:
   key: xxx
 rethinkdb:
