@@ -11,6 +11,12 @@ module.exports = (store, server) => {
     expiresAt: store.type.date().default(store.r.now().add(86400)), // 1 day
     featured: store.type.boolean().default(false),
     id: store.type.string(),
+    isNew: store.type.virtual().default(function () {
+
+      const isNewTime = new Date();
+      isNewTime.setDate(isNewTime.getDate() - 3); // 3 days
+      return new Date(this.createdAt) > isNewTime;
+    }),
     location: store.type.string().enum(['condo', 'home', 'marina', 'vacant_lot']),
     phone: store.type.string(),
     price: store.type.string(),
