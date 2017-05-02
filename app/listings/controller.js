@@ -1,6 +1,8 @@
 const Boom = require('boom');
 const Promise = require('bluebird');
 const NodeGeocoder = require('node-geocoder');
+const PhoneNumberFormat = require('google-libphonenumber').PhoneNumberFormat;
+const PhoneNumberUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
 
 module.exports = ({
   index: (request, reply) => {
@@ -59,6 +61,7 @@ module.exports = ({
     delete request.payload.uploads;
     const payloadInstance = new Listing(request.payload);
     payloadInstance.userId = request.auth.credentials.user.id;
+    payloadInstance.phone = PhoneNumberUtil.format(PhoneNumberUtil.parse(payloadInstance.phone, payloadInstance.country), PhoneNumberFormat.INTERNATIONAL);
     payloadInstance
       .save()
       .then((listing) => {
