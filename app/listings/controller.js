@@ -56,7 +56,8 @@ module.exports = ({
       return geocoder.geocode(address);
     };
 
-    const Listing = request.server.plugins.data.store().Listing;
+    const store = request.server.plugins.data.store();
+    const Listing = store.Listing;
     const uploads = request.payload.uploads;
     delete request.payload.uploads;
     const payloadInstance = new Listing(request.payload);
@@ -64,11 +65,12 @@ module.exports = ({
     payloadInstance.phone = PhoneNumberUtil.format(PhoneNumberUtil.parse(payloadInstance.phone, payloadInstance.country), PhoneNumberFormat.INTERNATIONAL);
     payloadInstance
       .save()
+      .then((listing) => Listing.get(listing.id).getJoin({ user: true }).run())
       .then((listing) => {
 
         return Promise.all((uploads).map((uploadId) => {
 
-          const Upload = request.server.plugins.data.store().Upload;
+          const Upload = store.Upload;
           return Upload
             .filter((upload) => upload('fingerprint').match(uploadId))
             .nth(0)
@@ -89,6 +91,27 @@ module.exports = ({
           const { latitude, longitude } = geo[0] || geo;
           return listing.merge({ latitude, longitude }).save();
         });
+      })
+      .then((listing) => {
+
+        if (!listing.user.freeCredits) {
+          return listing;
+        }
+
+        return listing
+          .merge({
+            active: true,
+            expiresAt: store.r.now().add(86400 * 30) // 30 days
+          })
+          .save()
+          .then(() => {
+
+            const User = store.User;
+            return User.get(listing.user.id)
+              .update({ freeCredits: listing.user.freeCredits - 1 })
+              .run()
+              .then(() => listing);
+          });
       })
       .then((listing) => reply({ listing }))
       .catch((listingError) => reply(Boom.badRequest(listingError)));
