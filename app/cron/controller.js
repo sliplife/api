@@ -1,6 +1,6 @@
 const Boom = require('boom');
 const Promise = require('bluebird');
-const Fs = require('fs-promise');
+const Fs = require('fs-extra');
 const Path = require('path');
 const DeleteEmpty = Promise.promisify(require('delete-empty'));
 const internals = {
@@ -37,7 +37,11 @@ const internals = {
             return Promise.all((listing.uploads).map((upload) => {
 
               const file = Path.join(process.cwd(), '..', upload.path, upload.getDirectoryPath());
-              return Fs.unlink(file);
+              const cacheDirectory = Path.join(process.cwd(), '..', upload.path, 'cache', upload.getDirectoryPath());
+              return Fs.pathExists(file)
+                .then(() => Fs.unlink(file))
+                .then(() => Fs.pathExists(cacheDirectory))
+                .then(() => Fs.remove(cacheDirectory));
             }))
             .then(() => {
 
