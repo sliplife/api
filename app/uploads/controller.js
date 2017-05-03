@@ -2,7 +2,7 @@ const _ = require('lodash');
 const Boom = require('boom');
 const { Caman } = require('caman');
 const Promise = require('bluebird');
-const Fs = require('fs-promise');
+const Fs = require('fs-extra');
 const Path = require('path');
 const Tus = require('tus-node-server');
 const TusStore = require('./tus/tusStore');
@@ -12,6 +12,7 @@ const SmartCrop = require('smartcrop-sharp');
 const ImageMin = require('imagemin');
 const ImageminMozjpeg = require('imagemin-mozjpeg');
 const ImageminPngquant = require('imagemin-pngquant');
+const ObjectHash = require('object-hash');
 
 // Define handler for this controller.
 module.exports = ({
@@ -155,6 +156,25 @@ module.exports = ({
         ]
       });
     };
+    const readFromCache = (cachePath) => {
+
+      return new Promise((resolve, reject) => {
+
+        Fs.pathExists(cachePath)
+          .then(() => readFileBuffer(cachePath))
+          .then((buffer) => resolve(buffer))
+          .catch(() => reject());
+      });
+    };
+    const writeToCache = (buffer, cachePath) => {
+
+      return new Promise((resolve, reject) => {
+
+        Fs.ensureFile(cachePath)
+          .then(() => Fs.writeFile(cachePath, buffer, 'base64'))
+          .then(() => resolve(buffer));
+      });
+    };
 
     request.server.plugins.data.store().Upload
       .filter({ fingerprint: request.params.fingerprint })
@@ -163,13 +183,22 @@ module.exports = ({
       .run()
       .then((upload) => {
 
-        return readFileBuffer(Path.join(process.cwd(), '..', upload.path, upload.getDirectoryPath()))
-          .then((buffer) => orientate(buffer))
-          .then((buffer) => resize(buffer))
-          .then((buffer) => filter(buffer))
-          .then((buffer) => optimize(buffer))
+        const cacheKey = ObjectHash({ params: request.params, query: request.query });
+        const cachePath = Path.join(process.cwd(), '..', 'uploads', 'cache', upload.getDirectoryPath(), cacheKey);
+
+        return readFromCache(cachePath)
           .then((buffer) => reply(buffer).encoding('base64').type(upload.type))
-          .catch((error) => reply(Boom.badRequest(error)));
+          .catch(() => {
+
+            return readFileBuffer(Path.join(process.cwd(), '..', upload.path, upload.getDirectoryPath()))
+              .then((buffer) => orientate(buffer))
+              .then((buffer) => resize(buffer))
+              .then((buffer) => filter(buffer))
+              .then((buffer) => optimize(buffer))
+              .then((buffer) => writeToCache(buffer, cachePath))
+              .then((buffer) => reply(buffer).encoding('base64').type(upload.type))
+              .catch((error) => reply(Boom.badRequest(error)));
+          });
       })
       .catch((error) => reply(Boom.badRequest(error)));
   }
