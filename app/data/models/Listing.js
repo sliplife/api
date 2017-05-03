@@ -21,6 +21,10 @@ module.exports = (store, server) => {
     }),
     latitude: store.type.number(),
     location: store.type.string().enum(['condo', 'home', 'marina', 'vacant_lot']),
+    locationName: store.type.virtual().default(function () {
+
+      return this.location.split('_').map(Capitalize).join(' ');
+    }),
     longitude: store.type.number(),
     phone: store.type.string(),
     price: store.type.string(),
