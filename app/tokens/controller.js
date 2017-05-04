@@ -69,10 +69,10 @@ module.exports = ({
 
       return new Promise((resolve, reject) => {
 
-        const template = Path.join(__dirname, 'views', 'email', 'password-recovery.dust');
+        const domain = (process.env.NODE_ENV === 'production') ? 'www.sliplife.com' : 'www.sliplife.dev';
+        const template = Path.join(__dirname, 'views', 'email', 'password.dust');
         const context = {
-          adminBaseUrl: `${request.headers['x-forwarded-proto'] || request.connection.info.protocol}://${request.info.hostname}/`,
-          assetsBaseUrl: `${request.headers['x-forwarded-proto'] || request.connection.info.protocol}://${request.info.hostname}/assets/`,
+          baseUrl: `https://${domain}`,
           token
         };
         Render.dust(template, context, (error, html) => {
