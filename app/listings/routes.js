@@ -30,7 +30,7 @@ module.exports = [
           amenities: Joi.array().optional(),
           beam: Joi.number().required(),
           city: Joi.string().required(),
-          clearance: Joi.number().required(),
+          clearance: Joi.number().optional(),
           country: Joi.string().required(),
           description: Joi.string().required(),
           draw: Joi.number().required(),
