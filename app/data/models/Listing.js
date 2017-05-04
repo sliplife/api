@@ -26,6 +26,7 @@ module.exports = (store, server) => {
       return this.location.split('_').map(Capitalize).join(' ');
     }),
     longitude: store.type.number(),
+    name: store.type.string(),
     phone: store.type.string(),
     price: store.type.string(),
     state: store.type.string(),
@@ -40,6 +41,7 @@ module.exports = (store, server) => {
     }),
     userId: store.type.string(),
     vhfChannel: store.type.string(),
+    website: store.type.string(),
     zip: store.type.string()
   });
 

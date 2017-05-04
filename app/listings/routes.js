@@ -33,6 +33,7 @@ module.exports = [
           description: Joi.string().required(),
           email: Joi.string().required(),
           location: Joi.string().required(),
+          name: Joi.string(),
           phone: Joi.string(),
           price: Joi.string().required(),
           uploads: Joi.array().min(1).required(),
@@ -41,7 +42,8 @@ module.exports = [
           terms: Joi.string().required(),
           termType: Joi.string().required(),
           type: Joi.string().required(),
-          vhfChannel: Joi.string(),
+          vhfChannel: Joi.string().allow('').optional(),
+          website: Joi.string().allow('').optional(),
           zip: Joi.string().required()
         }
       }
