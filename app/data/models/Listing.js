@@ -5,10 +5,13 @@ module.exports = (store, server) => {
   const Listing = store.createModel('listings', {
     active: store.type.boolean().default(false),
     amenities: store.type.array(),
+    beam: store.type.number(),
     city: store.type.string(),
+    clearance: store.type.number(),
     country: store.type.string(),
     createdAt: store.type.date().default(store.r.now()),
     description: store.type.string(),
+    draw: store.type.number(),
     email: store.type.string(),
     expiresAt: store.type.date().default(store.r.now().add(86400)), // 1 day
     featured: store.type.boolean().default(false),
@@ -20,6 +23,7 @@ module.exports = (store, server) => {
       return new Date(this.createdAt) > isNewTime;
     }),
     latitude: store.type.number(),
+    length: store.type.number(),
     location: store.type.string().enum(['condo', 'home', 'marina', 'vacant_lot']),
     locationName: store.type.virtual().default(function () {
 

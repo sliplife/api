@@ -28,10 +28,14 @@ module.exports = [
       validate: {
         payload: {
           amenities: Joi.array().optional(),
+          beam: Joi.number().required(),
           city: Joi.string().required(),
+          clearance: Joi.number().required(),
           country: Joi.string().required(),
           description: Joi.string().required(),
+          draw: Joi.number().required(),
           email: Joi.string().required(),
+          length: Joi.number().required(),
           location: Joi.string().required(),
           name: Joi.string(),
           phone: Joi.string(),
