@@ -7,11 +7,12 @@ const PhoneNumberUtil = require('google-libphonenumber').PhoneNumberUtil.getInst
 module.exports = ({
   index: (request, reply) => {
 
+    const store = request.server.plugins.data.store();
     const page = parseInt(request.query.page) || 1;
     const limit = parseInt(request.query.limit) || 100;
     const offset = (page - 1 < 1) ? 0 : (page * limit) - limit;
     const query = request.query.query || '';
-    const filter = request.server.plugins.data.store().Listing
+    const filter = store.Listing
       .getJoin(request.server.plugins.data.getJoinObject(request.query.with))
       .filter((listing) => listing('active').eq(true))
       .filter((listing) => {
@@ -19,7 +20,11 @@ module.exports = ({
         return listing('type').match(`(?i).*${query}.*`)
           .or(listing('state').match(`(?i).*${query}.*`))
           .or(listing('city').match(`(?i).*${query}.*`))
-          .or(listing('description').match(`(?i).*${query}.*`));
+          .or(listing('zip').match(`(?i).*${query}.*`))
+          .or(listing('street').match(`(?i).*${query}.*`))
+          .or(listing('description').match(`(?i).*${query}.*`))
+          .or(listing('country').match(`(?i).*${query}.*`))
+          .or(listing('amenities').contains((row) => row.match(`(?i).*${query}.*`)));
       });
     Promise.props({
       total: filter.count().execute(),
