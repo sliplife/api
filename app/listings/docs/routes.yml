@@ -17,6 +17,21 @@
       - name: with
         in: query
         type: string
+      - name: terms
+        in: query
+        type: string
+      - name: type
+        in: query
+        type: string
+      - name: location
+        in: query
+        type: string
+      - name: city
+        in: query
+        type: string
+      - name: state
+        in: query
+        type: string
     security:
       - jwt: []
     responses:

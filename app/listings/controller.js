@@ -11,20 +11,61 @@ module.exports = ({
     const page = parseInt(request.query.page) || 1;
     const limit = parseInt(request.query.limit) || 100;
     const offset = (page - 1 < 1) ? 0 : (page * limit) - limit;
-    const query = request.query.query || '';
+    const { query, terms, type, location, state, city } = request.query;
     const filter = store.Listing
       .getJoin(request.server.plugins.data.getJoinObject(request.query.with))
       .filter((listing) => listing('active').eq(true))
       .filter((listing) => {
 
-        return listing('type').match(`(?i).*${query}.*`)
-          .or(listing('state').match(`(?i).*${query}.*`))
-          .or(listing('city').match(`(?i).*${query}.*`))
-          .or(listing('zip').match(`(?i).*${query}.*`))
+        if (!query) {
+          return listing;
+        }
+        // Query string
+        return listing('zip').match(`(?i).*${query}.*`)
           .or(listing('street').match(`(?i).*${query}.*`))
           .or(listing('description').match(`(?i).*${query}.*`))
           .or(listing('country').match(`(?i).*${query}.*`))
           .or(listing('amenities').contains((row) => row.match(`(?i).*${query}.*`)));
+      })
+      .filter((listing) => {
+
+        if (!terms) {
+          return listing;
+        }
+        // Terms
+        return listing('terms').eq(terms);
+      })
+      .filter((listing) => {
+
+        if (!type) {
+          return listing;
+        }
+        // Type
+        return listing('type').eq(type);
+      })
+      .filter((listing) => {
+
+        if (!location) {
+          return listing;
+        }
+        // Location
+        return listing('location').eq(location);
+      })
+      .filter((listing) => {
+
+        if (!state) {
+          return listing;
+        }
+        // State
+        return listing('state').eq(state);
+      })
+      .filter((listing) => {
+
+        if (!city) {
+          return listing;
+        }
+        // City
+        return listing('city').match(city);
       });
     Promise.props({
       total: filter.count().execute(),
