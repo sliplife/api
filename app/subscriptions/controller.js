@@ -24,7 +24,7 @@ module.exports = ({
     const { filter, description, email, frequency } = request.payload;
     const mailingListHashKey = ObjectHash({ filter, frequency });
     const mailingList = {
-      address: `${mailingListHashKey}@mg.sliplife.com`,
+      address: `${mailingListHashKey}@${Config.mail.mailgun.auth.domain}`,
       name: description.toLowerCase(),
       description: frequency
     };
