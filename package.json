@@ -86,7 +86,6 @@
     "tmp": "0.0.30",
     "tus-node-server": "0.2.2",
     "urijs": "1.18.4",
-    "wreck": "^12.2.0",
     "yar": "8.1.2"
   },
   "devDependencies": {
