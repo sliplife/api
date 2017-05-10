@@ -1,0 +1,33 @@
+/subscriptions:
+  get:
+    operationId: browse
+    description: Returns an array of subscription objects.
+    parameters:
+      - name: page
+        in: query
+        type: string
+        default: 1
+      - name: limit
+        in: query
+        type: string
+        default: 25
+      - name: query
+        in: query
+        type: string
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/Subscriptions'
+  post:
+    description: Creates a new subscription.
+    parameters:
+      - name: body
+        in: body
+        schema:
+          $ref: '#/definitions/Subscription'
+    security:
+      - jwt: []
+    responses:
+      200:
+        $ref: '#/responses/Subscription'

@@ -1,0 +1,5 @@
+definitions:
+  Subscription:
+    properties:
+      id:
+        type: string

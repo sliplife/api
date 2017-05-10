@@ -1,0 +1,20 @@
+responses:
+  Subscription:
+    description: Subscription Object
+    schema:
+      type: object
+      properties:
+        user:
+          schema:
+            $ref: '#/definitions/Subscription'
+  Subscriptions:
+    description: Subscriptions Array
+    schema:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/definitions/Subscription'
+        pagination:
+          $ref: '#/definitions/Pagination'

@@ -58,6 +58,7 @@ const plugin = (server, options, nextPlugin) => {
 
   // Models.
   store.Listing = require('./models/Listing')(store, server);
+  store.MailingList = require('./models/MailingList')(store, server);
   store.Token = require('./models/Token')(store, server);
   store.Upload = require('./models/Upload')(store, server);
   store.User = require('./models/User')(store, server);

@@ -6,6 +6,10 @@ auth:
     algorithim: HS256
 mail:
   transport: direct
+  mailgun:
+    auth:
+      api_key: xxx
+      domain: mg.sliplife.com
 google:
   geoKey: xxx
 stripe:

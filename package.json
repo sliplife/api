@@ -72,6 +72,8 @@
     "querystring": "0.2.0",
     "read-chunk": "2.0.0",
     "reading-time": "1.1.0",
+    "request": "2.81.0",
+    "request-promise": "4.2.1",
     "rethinkdb": "2.3.3",
     "rethinkdbdash": "~2.2.18",
     "sharp": "0.17.1",
@@ -84,6 +86,7 @@
     "tmp": "0.0.30",
     "tus-node-server": "0.2.2",
     "urijs": "1.18.4",
+    "wreck": "^12.2.0",
     "yar": "8.1.2"
   },
   "devDependencies": {

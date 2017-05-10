@@ -34,7 +34,7 @@ module.exports = [
           country: Joi.string().required(),
           description: Joi.string().required(),
           draw: Joi.number().required(),
-          email: Joi.string().required(),
+          email: Joi.string().email().required(),
           length: Joi.number().required(),
           location: Joi.string().required(),
           name: Joi.string(),
