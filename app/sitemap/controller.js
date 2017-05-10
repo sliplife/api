@@ -25,7 +25,7 @@ module.exports = ({
 
     return getAllActiveListings()
       .then((listings) => renderSitemapTemplate({ listings, now: new Date() }))
-      .then((sitemap) => reply(sitemap))
+      .then((sitemap) => reply(sitemap).type('application/xml'))
       .catch((error) => reply(Boom.badRequest(error)));
   }
 });
